@@ -1,0 +1,36 @@
+---
+title: "dataR_01_first_Rmarkdown"
+author: "Peter Hahn"
+date: "2025-01-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+library(tidyverse)
+library(palmerpenguins)
+library(ggthemes)
+penguins
+glimpse(penguins)
+view(penguins)
+ggplot(data = penguins)
+
+ggplot(
+        data = penguins,
+        mapping = aes(x = flipper_length_mm, y = body_mass_g)
+)
+
+ggplot(
+        data = penguins,
+        mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+        geom_point()
+
+ggplot(
+        data = penguins,
+        mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)
+) +
+        geom_point()
