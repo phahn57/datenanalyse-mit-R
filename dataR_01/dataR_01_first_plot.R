@@ -4,6 +4,9 @@ library(ggthemes)
 penguins
 glimpse(penguins)
 view(penguins)
+
+penguins <- penguins
+
 ggplot(data = penguins)
 
 ggplot(

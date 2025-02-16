@@ -1,0 +1,206 @@
+---
+title: "dataR_03"
+author: "Peter Hahn"
+format:
+  revealjs:
+    embed-resources: true
+editor: visual
+---
+
+```{r}
+#| echo: false
+#| message: false
+library(here)
+library(tidyverse)
+
+```
+
+## Present data1
+```{r}
+table3
+```
+
+## Present data2
+
+```{r}
+table2
+```
+
+# Tidying data
+
+sauber aufgeräumt geordnet
+
+## Prinzip
+
+![Hadley](./images/tidy-1.png)
+
+
+## Present data2
+
+```{r}
+table2
+```
+
+
+## Present data3
+```{r}
+table1
+```
+
+## Vorteil
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+table1 |>
+  mutate(rate = cases / population * 10000)
+```
+
+## Messy data
+```{r}
+library(tidyr)
+billboard <- tidyr::billboard
+billboard
+```
+
+## plot
+Wieviel Wochen stehen die Titel in welchem Ranking?     
+billboard  |>      
+        ggplot(aes(x,y)) + geom_line()  
+                x = week, y = rank      
+        
+Aufgabe: x in col week und y in col rank         
+
+
+## Lösung ??
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+billboard |> 
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank"
+  )
+```
+
+## Structure and "NA
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+billboard |> 
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank",
+    values_drop_na = TRUE
+  )
+```
+
+## Character to number
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+billboard_longer <- billboard |> 
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank",
+    values_drop_na = TRUE
+  ) |> 
+  mutate(
+    week = parse_number(week)
+  )
+billboard_longer
+```
+
+## blood pressure
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+df <- tribble(
+  ~id,  ~bp1, ~bp2,
+   "A",  100,  120,  
+   "B",  140,  115,
+   "C",  120,  125
+)
+df
+```
+
+## pivot_longer
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+df |> 
+  pivot_longer(
+    cols = bp1:bp2,
+    names_to = "measurement",
+    values_to = "value"
+  )
+```
+
+
+
+
+
+## names
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+df <- tribble(
+  ~id,  ~bp1, ~bp2,
+   "Franz, Holz",  100,  120,  
+   "Kurt, Müller",  140,  115,
+   "Heint, Haas",  120,  125
+)
+df
+```
+
+## separate and wider
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+df_delim <- df |> 
+separate_wider_delim(cols = id, 
+                        delim = "," , 
+                        names = c("Vorname", "Name"))
+df_delim                        
+```
+
+# Exercises
+
+## tidy table 2 and 3
+![try](./images/error.png)
+## solution table2
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+table2 %>%
+  pivot_wider(names_from = type, values_from = count)
+
+## solution table3
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+
+
+## flights
+::: incremental
+- flights13 <- nycflights13::flights
+- flights23 <- nycflights23::flights
+- fl_all <- bind_rows(flights13,flights23)
+- fl_all |> group_by(month,year,carrier) |>    
+        summarize(avg_delay = mean(dep_delay, na.rm = TRUE) )
+:::
+
+
+## Vergleich der Jahre 2013 und 2023
+

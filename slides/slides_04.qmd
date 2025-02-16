@@ -1,0 +1,54 @@
+---
+title: "dataR_04"
+author: "Peter Hahn"
+format:
+  revealjs:
+    embed-resources: true
+editor: visual
+---
+
+# Loading data
+
+## csv
+Use file with students enrolled incourse...
+
+## Klinik Daten
+stat <- read_csv("./data/fk_stat.csv")
+
+## Message
+Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:                        
+  dat <- vroom(...)
+  problems(dat)
+Rows: 31299 Columns: 1
+Delimiter: ","
+chr (1): Vorname;AufnDat;AZeit;EntlDat;Abt;Kateg.;OP-Datum;SN-Zeit;DRG/6.1-Entgelt;eff.Gew.
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message
+
+## Klinik Daten 2
+stat <- read_csv2("./data/fk_stat.csv")
+
+## Help in IDE
+
+## Column names
+colnames(stat)
+
+## Solution
+rename
+
+## janitor
+stat |> janitor::clean_names
+
+## missing data
+::: incremental
+library(naniar)
+miss_summary(stat)
+stat_miss <- miss_summary(stat)
+stat_miss$miss_var_summary  
+:::
+
+## intermezzo
+Verteilung der sn_zeit ??
+
+

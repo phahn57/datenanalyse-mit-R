@@ -1,0 +1,249 @@
+---
+title: "dataR_01_intro"
+author: "Peter Hahn"
+format:
+  revealjs:
+    embed-resources: true
+editor: visual
+---
+
+```{r}
+#| echo: false
+#| message: false
+library(here)
+library(tidyverse)
+library(palmerpenguins)
+```
+
+## Einführung in die Datenanalyse mit R
+
+![intro](./images/atfirst.png)
+
+All [Artwork by \@allison_horst](https://twitter.com/allison_horst)
+
+## Teilnehmer
+
+![Who are you?](./images/rlearners.png)
+
+## Me
+
+![Dozent](./images/teacher.png)
+
+## Erwartungen
+
+![intro](./images/erwartung.png)
+
+## Install R and R Studio
+
+[CRAN](https://cran.r-project.org/). https://cran.r-project.org/
+
+[IDE](https://posit.co/download/rstudio-desktop/) https://posit.co/download/rstudio-desktop/
+
+## RStudio IDE
+
+![IDE](./images/ide.jpg)
+
+## Customize IDE
+
+::: incremental
+-   Tools - Global Options
+-   Save workspace : Never
+-   Code editing Tab
+-   Code formating styler
+:::
+
+## Die Pinguine
+
+![](./images/penguins.png) \## Bill length and depth
+
+![](./images/culmen_depth.png)
+
+## Code
+
+::: incremental
+-   library(tidyverse)
+-   library(palmerpenguins)
+-   library(ggthemes)
+-   penguins
+-   glimpse(penguins)
+-   view(penguins)
+:::
+
+## Variables
+
+## Erste Analyse
+
+![Ziel](./images/chart_wanted.png)
+
+## Plotting_1
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+ggplot(data = penguins)
+```
+
+## Plotting_2
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+)
+```
+
+## Plotting_3
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point()
+```
+
+## Plotting_4
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)
+) +
+  geom_point()
+```
+
+## Make it reproducible
+
+RMarkdown
+
+/##
+
+/\`\`\` `{r}`
+
+/\`\`\`
+
+/\*\* \*\*
+
+## Useful shortcuts
+
+-   option shift K : Keyboard shortcuts
+-   command option I : insert chunk
+-   option - : assignment operator
+-   control shift M : pipe
+
+## Build RMD
+
+::: incremental
+-   Copy Code from .R
+-   Simplify
+-   Use pipe operator
+:::
+
+## Add smooth
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+        geom_smooth(method = "lm")
+        
+```
+
+## local vs global
+``` {.r code-line-numbers="6,14"}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+        geom_smooth(method = "lm")
+        
+        
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(mapping = aes(color = species)) +
+        geom_smooth(method = "lm")
+```
+
+## result
+```{r}
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(mapping = aes(color = species)) +
+        geom_smooth(method = "lm")
+```
+
+## simplify
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species)) +
+        geom_smooth(method = "lm")
+```
+
+## Labelling the plot
+::: incremental
+-   search in help
+-   lab...
+:::
+
+## Categorical variable distributions
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+ggplot(penguins, aes(x = species)) +
+  geom_bar()
+```
+
+## numerical variable distribution
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 200)
+```
+
+## binwidth ?
+
+
+## alternative
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_density()
+```
+
+## numerical and categorical
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+ggplot(penguins, aes(x = body_mass_g, color = species)) +
+  geom_density(linewidth = 0.75)
+```

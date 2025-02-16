@@ -1,0 +1,59 @@
+---
+title: "dataR_02"
+author: "Peter Hahn"
+format:
+  revealjs:
+    embed-resources: true
+editor: visual
+---
+
+```{r}
+#| echo: false
+#| message: false
+library(here)
+library(tidyverse)
+library(nycflights23)
+```
+
+## Values
+
+::: incremental
+-   3 + 3 #use empty space after +,-,\*,/...
+-   x \<- c(1,1,2,3,5,7)
+-   x \* 2
+-   y \<- seq(from = 1, to = 10, by = 1) \# look in help
+-   y \<- seq(1,10)\
+-   z \<- seq(1,20,2)
+-   a \<- "Peter Hahn" #Environment
+:::
+
+## nycflights23
+
+Flight data from 2023
+
+```{r}
+flights <- flights
+```
+
+## Tibble 
+- flights.  
+- view(flights)
+
+## number of origin
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "code"
+unique(flights$origin)
+```
+
+## Access tibble
+::: incremental
+- flights$origin
+- flights[,13]
+- flights[1,]
+- flights[2,13]
+- flights[1:2,]
+- flights[1, c(1,13)]
+:::
+
